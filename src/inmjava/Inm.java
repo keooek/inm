@@ -27,11 +27,19 @@ public class Inm {
 		 System.out.println("IDEALISTA-----------------------------------------------------------------");
 		 //Idealista idea = new Idealista(); 
 		 System.out.println("FOTOCASA-----------------------------------------------------------------"); 
-		 Thread fcasa = new Thread(new Fotocasa());
-		 fcasa.start();
+		 //Thread fcasa = new Thread(new Fotocasa());
+		 //fcasa.start();
 		 //Fotocasa fcasa =new Fotocasa(); 
 		 System.out.println("VIBBO-----------------------------------------------------------------"); 
-		 Vibbo vibbo =new Vibbo();
+		 //Vibbo vibbo = new Vibbo();
+		 try {
+			//Database db = new Database("database");
+			Database dbdata = new Database();
+			dbdata.acciones();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		 
 	}
 }
