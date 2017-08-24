@@ -41,10 +41,13 @@ public class Idealista {
 							.userAgent(
 									"Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
 							.timeout(180000).ignoreHttpErrors(true).followRedirects(true).get();
+					//System.out.println(doc_inm.getElementsByClass(".feedback.warning.icon-feedbk-alert"));
+					//Lo sentimos, el inmueble 37581459 ya no está publicado en idealista :-|
+					//El anunciante lo dio de baja el jueves 24 de agosto de 2017
 					inm.setTelefono(
 							Integer.valueOf(doc_inm.getElementsByClass("_browserPhone").text().replace(" ", "")));
 					System.out.println(inm.getTelefono());
-					inm.setPrecio(Integer.valueOf(doc_inm.getElementsByClass("price").first().text().replace("�", "")
+					inm.setPrecio(Integer.valueOf(doc_inm.getElementsByClass("price").first().text().replace("€", "")
 							.replace(".", "").replace(" eur", "")));
 					System.out.println(inm.getPrecio());
 					inm.setDescripcion(doc_inm.getElementsByClass("adCommentsLanguage expandable").text());
@@ -57,6 +60,10 @@ public class Idealista {
 				}
 
 			}
+			Database.add_rows(inmuebleList);
+			
+			
+			//Database.add_rows();
 		} catch (IOException e) {
 			System.out.println(e);
 		}

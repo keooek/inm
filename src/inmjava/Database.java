@@ -6,13 +6,15 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Database {
 
 	public static Connection conn; // our connnection to the db - presist for
 									// life of program
 
-	public void shutdown() throws SQLException {
+	public static void shutdown() throws SQLException {
 
 		Statement st = conn.createStatement();
 
@@ -24,7 +26,7 @@ public class Database {
 	}
 
 	// use for SQL command SELECT
-	public synchronized void query(String expression) throws SQLException {
+	public synchronized static void query(String expression) throws SQLException {
 
 		Statement st = null;
 		ResultSet rs = null;
@@ -48,7 +50,7 @@ public class Database {
 	}
 
 	// use for SQL commands CREATE, DROP, INSERT and UPDATE
-	public synchronized void update(String expression) throws SQLException {
+	public synchronized static void update(String expression) throws SQLException {
 
 		Statement st = null;
 
@@ -89,8 +91,7 @@ public class Database {
 		}
 	} // void dump( ResultSet rs )
 
-	public static void acciones() {
-		Database db = new Database();
+	public static void initialize() {
 
 		try {
 			// db = new Database("db_file");
@@ -111,7 +112,11 @@ public class Database {
 			//
 			// by declaring the id column IDENTITY, the db will automatically
 			// generate unique values for new rows- useful for row keys
-			db.update("CREATE TABLE sample_table ( id INTEGER IDENTITY, str_col VARCHAR(256), num_col INTEGER)");
+			// update("CREATE TABLE Idealista(idd INTEGER IDENTITY, id
+			// VARCHAR(256), url VARCHAR(256), telefono INTEGER)");
+			//update("DROP TABLE Idealista");
+			//update("DROP TABLE SAMPLE_TABLE");
+			update("CREATE TABLE Idealista ( idd INTEGER IDENTITY, id VARCHAR(256), direccion VARCHAR(256), zona VARCHAR(256), descripcion VARCHAR(2048), url VARCHAR(256), telefono INTEGER, precio INTEGER)");
 		} catch (SQLException ex2) {
 
 			// ignore
@@ -121,21 +126,32 @@ public class Database {
 			//
 			// this will have no effect on the db
 		}
+	}
+
+	public static void add_rows(ArrayList<Inmueble> inmuebleList) {
 
 		try {
 
 			// add some rows - will create duplicates if run more then once
 			// the id column is automatically generated
-			db.update("INSERT INTO sample_table(str_col,num_col) VALUES('Ford', 100)");
-			db.update("INSERT INTO sample_table(str_col,num_col) VALUES('Toyota', 200)");
-			db.update("INSERT INTO sample_table(str_col,num_col) VALUES('Honda', 300)");
-			db.update("INSERT INTO sample_table(str_col,num_col) VALUES('GM', 400)");
+			// update("INSERT INTO sample_table(str_col,num_col) VALUES('Ford',
+			// 100)");
+			Iterator<Inmueble> it = inmuebleList.iterator();
+			while (it.hasNext()) {
+				update("INSERT INTO Idealista(id,direccion,zona,url,telefono,precio) VALUES('" + it.next().getId()
+						+ "', '" + it.next().getDireccion() + "', '" + it.next().getZona()
+						+ "', '" + it.next().getUrl() + "', '" + it.next().getTelefono() + "', '" + it.next().getPrecio() + "')");
+			}
+			// update("INSERT INTO sample_table(str_col,num_col) VALUES('Honda',
+			// 300)");
+			// update("INSERT INTO sample_table(str_col,num_col) VALUES('GM',
+			// 400)");
 
 			// do a query
-			db.query("SELECT * FROM sample_table WHERE num_col < 250");
+			//query("SELECT * FROM Idealista");
 
 			// at end of program
-			db.shutdown();
+			// shutdown();
 		} catch (SQLException ex3) {
 			ex3.printStackTrace();
 		}
