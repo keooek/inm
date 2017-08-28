@@ -35,7 +35,7 @@ public class Idealista {
 
 				Inmueble inm = new Inmueble();
 				inm.setId(id);
-				//System.out.println("exists_db:"+ Database.exists_reg(id));
+
 				if ((inmuebleList.contains(inm) == false) && ("0".equals(Database.exists_reg(id)))) {
 					inm.setUrl(url);
 					Document doc_inm = Jsoup.connect(inm.getUrl()).proxy("localhost", 8888)
