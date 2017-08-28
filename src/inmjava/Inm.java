@@ -8,7 +8,7 @@ import javax.mail.internet.AddressException;
 
 
 public class Inm {
-	public static void main(String[] args) throws AddressException, MessagingException {
+	public static void main(String[] args) throws AddressException, MessagingException, SQLException {
 		//Mail mail = new Mail();
 		Database.initialize();
 		 System.out.println("IDEALISTA-----------------------------------------------------------------");

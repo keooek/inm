@@ -49,6 +49,31 @@ public class Database {
 		// completely examined.
 	}
 
+	public synchronized static String exists_reg(String expression) throws SQLException {
+
+		Statement st = null;
+		ResultSet rs = null;
+
+		st = conn.createStatement();
+		rs = st.executeQuery("select count(1) from Idealista where id = '" + expression + "'");
+		ResultSetMetaData meta = rs.getMetaData();
+		int colmax = meta.getColumnCount();
+		int i;
+		Object o = null;
+		String return_value = null;
+
+		for (; rs.next();) {
+			for (i = 0; i < colmax; ++i) {
+				o = rs.getObject(i + 1);
+				System.out.print(o.toString() + " ");
+				return_value = o.toString().replace(" ", "");
+			}
+			System.out.println(" ");
+		}
+		st.close();
+		return return_value;
+	}
+
 	// use for SQL commands CREATE, DROP, INSERT and UPDATE
 	public synchronized static void update(String expression) throws SQLException {
 
@@ -94,16 +119,13 @@ public class Database {
 	public static void initialize() {
 
 		try {
-			// db = new Database("db_file");
+
 			Class.forName("org.hsqldb.jdbcDriver");
-			conn = DriverManager.getConnection("jdbc:hsqldb:" + "database", // filenames
-					"sa", // username
-					""); // password
+			conn = DriverManager.getConnection("jdbc:hsqldb:" + "database", "sa", "");
 
 		} catch (Exception ex1) {
-			ex1.printStackTrace(); // could not start db
-
-			return; // bye bye
+			ex1.printStackTrace();
+			return;
 		}
 
 		try {
@@ -114,8 +136,8 @@ public class Database {
 			// generate unique values for new rows- useful for row keys
 			// update("CREATE TABLE Idealista(idd INTEGER IDENTITY, id
 			// VARCHAR(256), url VARCHAR(256), telefono INTEGER)");
-			//update("DROP TABLE Idealista");
-			//update("DROP TABLE SAMPLE_TABLE");
+			// update("DROP TABLE Idealista");
+			// update("DROP TABLE SAMPLE_TABLE");
 			update("CREATE TABLE Idealista ( idd INTEGER IDENTITY, id VARCHAR(256), direccion VARCHAR(256), zona VARCHAR(256), descripcion VARCHAR(2048), url VARCHAR(256), telefono INTEGER, precio INTEGER)");
 		} catch (SQLException ex2) {
 
@@ -131,31 +153,22 @@ public class Database {
 	public static void add_rows(ArrayList<Inmueble> inmuebleList) {
 
 		try {
-
-			// add some rows - will create duplicates if run more then once
-			// the id column is automatically generated
-			// update("INSERT INTO sample_table(str_col,num_col) VALUES('Ford',
-			// 100)");
 			Iterator<Inmueble> it = inmuebleList.iterator();
 			while (it.hasNext()) {
 				Inmueble inm = it.next();
-				System.out.println("INSERT INTO Idealista(id,direccion,zona,url,telefono,precio) VALUES('" + inm.getId()
-						+ "', '" + inm.getDireccion() + "', '" + inm.getZona()
+				//if (inm.getDescripcion() == null) { inm.setDescripcion("Vacio"); }
+				System.out.println(inm.getDescripcion().length());
+				//inm.setDescripcion("Vacio");
+				
+				System.out.println("INSERT INTO Idealista(id,direccion,zona,descripcion,url,telefono,precio) VALUES('" + inm.getId()
+						+ "', '" + inm.getDireccion() + "', '" + inm.getZona() + "', '"
+						+ inm.getDescripcion().substring(0, Math.min(inm.getDescripcion().length(), 2046)) + "', '" + inm.getUrl() + "', '" + inm.getTelefono()
+						+ "', '" + inm.getPrecio() + "')");
+				update("INSERT INTO Idealista(id,direccion,zona,descripcion,url,telefono,precio) VALUES('" + inm.getId() + "', '"
+						+ inm.getDireccion() + "', '" + inm.getZona() + "', '" + inm.getDescripcion().substring(0, Math.min(inm.getDescripcion().length(), 2046))
 						+ "', '" + inm.getUrl() + "', '" + inm.getTelefono() + "', '" + inm.getPrecio() + "')");
-				update("INSERT INTO Idealista(id,direccion,zona,url,telefono,precio) VALUES('" + inm.getId()
-						+ "', '" + inm.getDireccion() + "', '" + inm.getZona()
-						+ "', '" + inm.getUrl() + "', '" + inm.getTelefono() + "', '" + inm.getPrecio() + "')");
+				//update("COMMIT;");
 			}
-			// update("INSERT INTO sample_table(str_col,num_col) VALUES('Honda',
-			// 300)");
-			// update("INSERT INTO sample_table(str_col,num_col) VALUES('GM',
-			// 400)");
-
-			// do a query
-			//query("SELECT * FROM Idealista");
-
-			// at end of program
-			// shutdown();
 		} catch (SQLException ex3) {
 			ex3.printStackTrace();
 		}

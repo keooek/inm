@@ -1,6 +1,7 @@
 package inmjava;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.jsoup.Jsoup;
@@ -12,7 +13,7 @@ public class Idealista {
 
 	ArrayList<Inmueble> inmuebleList = new ArrayList<>();
 
-	Idealista() {
+	Idealista() throws SQLException {
 		try {
 			Document doc = Jsoup
 					.connect(
@@ -34,8 +35,8 @@ public class Idealista {
 
 				Inmueble inm = new Inmueble();
 				inm.setId(id);
-
-				if (inmuebleList.contains(inm) == false) {
+				//System.out.println("exists_db:"+ Database.exists_reg(id));
+				if ((inmuebleList.contains(inm) == false) && ("0".equals(Database.exists_reg(id)))) {
 					inm.setUrl(url);
 					Document doc_inm = Jsoup.connect(inm.getUrl()).proxy("localhost", 8888)
 							.userAgent(
@@ -61,6 +62,7 @@ public class Idealista {
 
 			}
 			Database.add_rows(inmuebleList);
+			Database.query("select * from Idealista");
 			
 			
 			//Database.add_rows();
