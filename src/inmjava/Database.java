@@ -138,9 +138,13 @@ public class Database {
 			// 100)");
 			Iterator<Inmueble> it = inmuebleList.iterator();
 			while (it.hasNext()) {
-				update("INSERT INTO Idealista(id,direccion,zona,url,telefono,precio) VALUES('" + it.next().getId()
-						+ "', '" + it.next().getDireccion() + "', '" + it.next().getZona()
-						+ "', '" + it.next().getUrl() + "', '" + it.next().getTelefono() + "', '" + it.next().getPrecio() + "')");
+				Inmueble inm = it.next();
+				System.out.println("INSERT INTO Idealista(id,direccion,zona,url,telefono,precio) VALUES('" + inm.getId()
+						+ "', '" + inm.getDireccion() + "', '" + inm.getZona()
+						+ "', '" + inm.getUrl() + "', '" + inm.getTelefono() + "', '" + inm.getPrecio() + "')");
+				update("INSERT INTO Idealista(id,direccion,zona,url,telefono,precio) VALUES('" + inm.getId()
+						+ "', '" + inm.getDireccion() + "', '" + inm.getZona()
+						+ "', '" + inm.getUrl() + "', '" + inm.getTelefono() + "', '" + inm.getPrecio() + "')");
 			}
 			// update("INSERT INTO sample_table(str_col,num_col) VALUES('Honda',
 			// 300)");
