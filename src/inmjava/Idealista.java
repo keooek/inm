@@ -9,10 +9,14 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class Idealista {
+//public class Idealista implements Runnable{   //forma recomendada
+//public class Idealista extends Thread{
+
+public class Idealista{
 
 	ArrayList<Inmueble> inmuebleList = new ArrayList<>();
 
+	//public void run() {
 	Idealista() throws SQLException {
 		try {
 			Document doc = Jsoup
@@ -35,7 +39,8 @@ public class Idealista {
 
 				Inmueble inm = new Inmueble();
 				inm.setId(id);
-
+				//Thread.sleep(2000);
+				
 				if ((inmuebleList.contains(inm) == false) && ("0".equals(Database.exists_reg(id)))) {
 					inm.setUrl(url);
 					Document doc_inm = Jsoup.connect(inm.getUrl()).proxy("localhost", 8888)
@@ -66,8 +71,11 @@ public class Idealista {
 			
 			
 			//Database.add_rows();
-		} catch (IOException e) {
+		} catch (IOException | NumberFormatException | SQLException e) {
 			System.out.println(e);
+		//} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+		//	e.printStackTrace();
 		}
 	}
 

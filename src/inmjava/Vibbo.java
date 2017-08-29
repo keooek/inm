@@ -1,6 +1,7 @@
 package inmjava;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.jsoup.Jsoup;
@@ -11,7 +12,7 @@ import org.jsoup.select.Elements;
 public class Vibbo {
 	ArrayList<Inmueble> inmuebleList = new ArrayList<>();
 
-	Vibbo() {
+	Vibbo() throws SQLException {
 		try {
 			Document doc = Jsoup
 					.connect(
@@ -40,7 +41,8 @@ public class Vibbo {
 				// https://www.vibbo.com/vizcaya/piso-en-zorroza/a106343591/?ca=48_s&st=s&c=58
 				Inmueble inm = new Inmueble();
 				inm.setId(id);
-				if (inmuebleList.contains(inm) == false) {
+
+				if ((inmuebleList.contains(inm) == false) && ("0".equals(Database.exists_reg(id)))) {
 					inm.setUrl(url);
 					System.out.println(inm.getId() + "     " + inm.getUrl());
 					Document doc_inm = Jsoup.connect(inm.getUrl()).proxy("localhost", 8888)
@@ -49,8 +51,8 @@ public class Vibbo {
 							.timeout(180000).ignoreHttpErrors(true).followRedirects(true).get();
 					inm.setZona(doc_inm.getElementsByClass("map-ad-location__name").text());
 					inm.setDireccion(doc_inm.getElementsByClass("productTitle").text());
-					inm.setPrecio(Integer
-							.valueOf(doc_inm.getElementsByClass("price").text().replace("â‚¬", "").replace(".", "")));
+					inm.setPrecio(Integer.valueOf(doc_inm.getElementsByClass("price").text().replace("€", "").replace(".", "")));
+					inm.setTelefono(000000);
 					inm.setDescripcion(doc_inm.getElementsByClass("descriptionLong").text());
 					inm.setVendedor(doc_inm.getElementsByClass("sellerBox__info__name").text());
 					Elements links_tel = doc_inm.select("img[src*=numbers]");
@@ -59,33 +61,18 @@ public class Vibbo {
 						// inm.setTelUrl1(links_tel);
 						inm.setTelUrls("https:" + elem_inm.attr("src"));
 					}
-					System.out.println(inm.getDescripcion() + "\n" + inm.getPrecio() + "\n" + inm.getZona() + "\n"
-							+ inm.getVendedor() + inm.getTelUrls() + "\n\n");
+					// System.out.println(inm.getDescripcion() + "\n" +
+					// inm.getPrecio() + "\n" + inm.getZona() + "\n" +
+					// inm.getVendedor() + inm.getTelUrls() + "\n\n");
 
-					System.out.println(inmuebleList.contains(inm));
+					// System.out.println(inmuebleList.contains(inm));
 					inmuebleList.add(inm);
 				}
 
-				// return ;
-				// Elements links_inm = doc_inm.select("div");
-				// for (Element elem_inm : links_inm) {
-				// print(" * %s <%s> (%s)",
-				// link_inm.tagName(),link.attr("abs:href"), link.attr("rel"));
-				// inm.setDescripcion(elem_inm.getElementsByClass("descriptionLong").text());
-				// inm.setPrecio(Integer.valueOf(elem_inm.getElementsByClass("price").text().replace("ï¿½",
-				// "").replace(".", "")));
-				// inm.setZona(elem_inm.getElementsByClass("productTitle").text());
-				// inm.setDireccion(direccion);
-				// inm.setVendedor(elem_inm.getElementsByClass("sellerBox__info__name").text());
-
-				// System.out.println( inm.getDescripcion() + "\n" +
-				// inm.getPrecio()+ "\n" + inm.getZona() + inm.getVendedor() +
-				// "\n\n");
-				// return;
-				// }
 			}
-			// String title = doc.title();
-			// System.out.println(title);
+			Database.add_rows(inmuebleList);
+			Database.query("select * from Idealista");
+
 		} catch (IOException e) {
 			System.out.println(e);
 		}
