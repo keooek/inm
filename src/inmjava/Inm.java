@@ -22,13 +22,13 @@ public class Inm {
 		 //fcasa.start();
 		 System.out.println("VIBBO-----------------------------------------------------------------"); 
 		 Vibbo vibbo = new Vibbo();
+
 		 try {
 			Database.shutdown();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		 
 	}
 }

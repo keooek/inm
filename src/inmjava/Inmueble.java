@@ -11,6 +11,7 @@ public class Inmueble {
 	private String descripcion;
 	private String vendedor;
 	private String url;
+	private String source;
 	private ArrayList<String> telUrls = new ArrayList<>();
 	private Integer metrosCuadrados;
 	private Integer telefono;
@@ -133,6 +134,14 @@ public class Inmueble {
 		// TODO Auto-generated method stub
 		System.out.println(attr);
 		this.telUrls.add(attr);
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
 	}
 
 }

@@ -44,6 +44,7 @@ public class Vibbo {
 
 				if ((inmuebleList.contains(inm) == false) && ("0".equals(Database.exists_reg(id)))) {
 					inm.setUrl(url);
+					inm.setSource("Vibbo");
 					System.out.println(inm.getId() + "     " + inm.getUrl());
 					Document doc_inm = Jsoup.connect(inm.getUrl()).proxy("localhost", 8888)
 							.userAgent(

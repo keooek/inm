@@ -138,11 +138,11 @@ public class Database {
 			// VARCHAR(256), url VARCHAR(256), telefono INTEGER)");
 			// update("DROP TABLE Idealista");
 			// update("DROP TABLE SAMPLE_TABLE");
-			update("CREATE TABLE Idealista ( idd INTEGER IDENTITY, id VARCHAR(256), direccion VARCHAR(256), zona VARCHAR(256), descripcion VARCHAR(2048), url VARCHAR(256), telefono INTEGER, precio INTEGER)");
+			update("CREATE TABLE Idealista ( idd INTEGER IDENTITY, time TIMESTAMP DEFAULT NOW, id VARCHAR(256), direccion VARCHAR(256), zona VARCHAR(256), descripcion VARCHAR(2048), url VARCHAR(256), telefono INTEGER, precio INTEGER)");
 		} catch (SQLException ex2) {
 
 			// ignore
-			// ex2.printStackTrace(); // second time we run program
+			ex2.printStackTrace(); // second time we run program
 			// should throw execption since table
 			// already there
 			//

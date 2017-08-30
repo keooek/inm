@@ -43,6 +43,7 @@ public class Idealista{
 				
 				if ((inmuebleList.contains(inm) == false) && ("0".equals(Database.exists_reg(id)))) {
 					inm.setUrl(url);
+					inm.setSource("Idealista");
 					Document doc_inm = Jsoup.connect(inm.getUrl()).proxy("localhost", 8888)
 							.userAgent(
 									"Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
