@@ -55,7 +55,7 @@ public class Database {
 		ResultSet rs = null;
 
 		st = conn.createStatement();
-		rs = st.executeQuery("select count(1) from Idealista where id = '" + expression + "'");
+		rs = st.executeQuery("select count(1) from Inmueble where id = '" + expression + "'");
 		ResultSetMetaData meta = rs.getMetaData();
 		int colmax = meta.getColumnCount();
 		int i;
@@ -138,7 +138,8 @@ public class Database {
 			// VARCHAR(256), url VARCHAR(256), telefono INTEGER)");
 			// update("DROP TABLE Idealista");
 			// update("DROP TABLE SAMPLE_TABLE");
-			update("CREATE TABLE Idealista ( idd INTEGER IDENTITY, time TIMESTAMP DEFAULT NOW, id VARCHAR(256), direccion VARCHAR(256), zona VARCHAR(256), descripcion VARCHAR(2048), url VARCHAR(256), telefono INTEGER, precio INTEGER)");
+			update("CREATE TABLE Inmueble ( idd INTEGER IDENTITY, time TIMESTAMP DEFAULT NOW, id VARCHAR(256), direccion VARCHAR(256), zona VARCHAR(256), descripcion VARCHAR(2048), url VARCHAR(256), telefono INTEGER, precio INTEGER)");
+			update("CREATE TABLE Inmobiliaria ( idd INTEGER IDENTITY, time TIMESTAMP DEFAULT NOW, id_source VARCHAR(256), nombre VARCHAR(2048), telefono INTEGER)");
 		} catch (SQLException ex2) {
 
 			// ignore
@@ -160,11 +161,11 @@ public class Database {
 				System.out.println(inm.getDescripcion().length());
 				//inm.setDescripcion("Vacio");
 				
-				System.out.println("INSERT INTO Idealista(id,direccion,zona,descripcion,url,telefono,precio) VALUES('" + inm.getId()
+				System.out.println("INSERT INTO Inmueble(id,direccion,zona,descripcion,url,telefono,precio) VALUES('" + inm.getId()
 						+ "', '" + inm.getDireccion() + "', '" + inm.getZona() + "', '"
 						+ inm.getDescripcion().substring(0, Math.min(inm.getDescripcion().length(), 2046)) + "', '" + inm.getUrl() + "', '" + inm.getTelefono()
 						+ "', '" + inm.getPrecio() + "')");
-				update("INSERT INTO Idealista(id,direccion,zona,descripcion,url,telefono,precio) VALUES('" + inm.getId() + "', '"
+				update("INSERT INTO Inmueble(id,direccion,zona,descripcion,url,telefono,precio) VALUES('" + inm.getId() + "', '"
 						+ inm.getDireccion() + "', '" + inm.getZona() + "', '" + inm.getDescripcion().substring(0, Math.min(inm.getDescripcion().length(), 2046))
 						+ "', '" + inm.getUrl() + "', '" + inm.getTelefono() + "', '" + inm.getPrecio() + "')");
 				//update("COMMIT;");

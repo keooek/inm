@@ -4,18 +4,18 @@ import java.util.ArrayList;
 
 public class Inmueble {
 
-	private String id;
-	private String direccion;
-	private String fechaPublicacion;
-	private String zona;
-	private String descripcion;
-	private String vendedor;
-	private String url;
-	private String source;
+	private String id = "vacio";
+	private String direccion = "vacio";
+	private String fechaPublicacion = "vacio";
+	private String zona = "vacio";
+	private String descripcion = "vacio";
+	private String vendedor = "vacio";
+	private String url = "vacio";
+	private String origen = "vacio";
 	private ArrayList<String> telUrls = new ArrayList<>();
-	private Integer metrosCuadrados;
-	private Integer telefono;
-	private Integer precio;
+	private Integer metrosCuadrados = 0;
+	private Integer telefono = 0;
+	private Integer precio = 0;
 
 	public Integer getPrecio() {
 		return precio;
@@ -136,12 +136,12 @@ public class Inmueble {
 		this.telUrls.add(attr);
 	}
 
-	public String getSource() {
-		return source;
+	public String getOrigen() {
+		return origen;
 	}
 
-	public void setSource(String source) {
-		this.source = source;
+	public void setOrigen(String origen) {
+		this.origen = origen;
 	}
 
 }

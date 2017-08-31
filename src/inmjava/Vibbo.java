@@ -44,7 +44,7 @@ public class Vibbo {
 
 				if ((inmuebleList.contains(inm) == false) && ("0".equals(Database.exists_reg(id)))) {
 					inm.setUrl(url);
-					inm.setSource("Vibbo");
+					inm.setOrigen("Vibbo");
 					System.out.println(inm.getId() + "     " + inm.getUrl());
 					Document doc_inm = Jsoup.connect(inm.getUrl()).proxy("localhost", 8888)
 							.userAgent(
@@ -52,7 +52,7 @@ public class Vibbo {
 							.timeout(180000).ignoreHttpErrors(true).followRedirects(true).get();
 					inm.setZona(doc_inm.getElementsByClass("map-ad-location__name").text());
 					inm.setDireccion(doc_inm.getElementsByClass("productTitle").text());
-					inm.setPrecio(Integer.valueOf(doc_inm.getElementsByClass("price").text().replace("€", "").replace(".", "")));
+					inm.setPrecio(Integer..valueOf(doc_inm.getElementsByClass("price").text().replace("â‚¬", "").replace(".", "")));
 					inm.setTelefono(000000);
 					inm.setDescripcion(doc_inm.getElementsByClass("descriptionLong").text());
 					inm.setVendedor(doc_inm.getElementsByClass("sellerBox__info__name").text());
@@ -72,7 +72,7 @@ public class Vibbo {
 
 			}
 			Database.add_rows(inmuebleList);
-			Database.query("select * from Idealista");
+			Database.query("select * from Inmueble");
 
 		} catch (IOException e) {
 			System.out.println(e);
