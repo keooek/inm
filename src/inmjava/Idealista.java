@@ -90,4 +90,6 @@ public class Idealista{
 		else
 			return s;
 	}
+	
+	public <T> T getValueOrDefault(T value, T defaultValue) { return value == "" ? defaultValue : value; }
 }

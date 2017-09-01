@@ -52,7 +52,7 @@ public class Vibbo {
 							.timeout(180000).ignoreHttpErrors(true).followRedirects(true).get();
 					inm.setZona(doc_inm.getElementsByClass("map-ad-location__name").text());
 					inm.setDireccion(doc_inm.getElementsByClass("productTitle").text());
-					inm.setPrecio(Integer..valueOf(doc_inm.getElementsByClass("price").text().replace("â‚¬", "").replace(".", "")));
+					inm.setPrecio(Integer.valueOf(doc_inm.getElementsByClass("price").text().replace("€", "").replace("eur", "").replace(".", "")));
 					inm.setTelefono(000000);
 					inm.setDescripcion(doc_inm.getElementsByClass("descriptionLong").text());
 					inm.setVendedor(doc_inm.getElementsByClass("sellerBox__info__name").text());
@@ -89,4 +89,6 @@ public class Vibbo {
 		else
 			return s;
 	}
+	
+	public <T> T getValueOrDefault(T value, T defaultValue) { return value == "" ? defaultValue : value; }
 }
