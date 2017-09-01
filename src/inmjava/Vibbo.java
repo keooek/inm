@@ -52,7 +52,11 @@ public class Vibbo {
 							.timeout(180000).ignoreHttpErrors(true).followRedirects(true).get();
 					inm.setZona(doc_inm.getElementsByClass("map-ad-location__name").text());
 					inm.setDireccion(doc_inm.getElementsByClass("productTitle").text());
-					inm.setPrecio(Integer.valueOf(doc_inm.getElementsByClass("price").text().replace("�", "").replace("eur", "").replace(".", "")));
+					//String aux1 = doc_inm.getElementsByClass("price").text().replace("€", "").replace("eur", "").replace(".", "");
+					//String aux2 = getValueOrDefault(aux1,"0");
+					//inm.setPrecio(aux2);
+					inm.setPrecio(Integer.valueOf(getValueOrDefault(doc_inm.getElementsByClass("price").text().replace("€", "").replace("eur", "").replace(".", ""),"0")));
+					//inm.setPrecio(Integer.valueOf(getValueOrDefault(doc_inm.getElementsByClass("price").text().replace("€", "").replace("eur", "").replace(".", ""),"100")));
 					inm.setTelefono(000000);
 					inm.setDescripcion(doc_inm.getElementsByClass("descriptionLong").text());
 					inm.setVendedor(doc_inm.getElementsByClass("sellerBox__info__name").text());
@@ -90,5 +94,6 @@ public class Vibbo {
 			return s;
 	}
 	
-	public <T> T getValueOrDefault(T value, T defaultValue) { return value == "" ? defaultValue : value; }
+	private <T> T getValueOrDefault(T value, T defaultValue) { return "".equals(value) ? defaultValue : value; }
+	//private static String getValueOrDefault(String value, String defaultValue){ return "".equals(value) ? defaultValue : value; }
 }
